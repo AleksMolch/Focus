@@ -48,7 +48,7 @@ export default class ClockFace extends PureComponent {
                 Math.sin(((2 * Math.PI) / 12) * i - Math.PI / 2 + Math.PI / 6)
               }
             >
-              {h + 1}
+              {(h + 1) * 5}
             </Text>
           ))}
         </G>

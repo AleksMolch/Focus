@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Button } from 'react-native';
 import { G, Path } from 'react-native-svg';
 
 import CircularSlider from '../components/CircularSlider';
+import TimerText from '../components/TimerText';
 
 export const MainScreen = ({ navigation }) => {
   const goToAbout = () => {
@@ -10,12 +11,12 @@ export const MainScreen = ({ navigation }) => {
   };
 
   const [angle, setAngle] = useState({
-    startAngle: (Math.PI * 10) / 6,
-    angleLength: (Math.PI * 7) / 6,
+    startAngle: (Math.PI * 12) / 6,
+    angleLength: (Math.PI * 5) / 6,
   });
 
   const calculateMinutesFromAngle = (angle) => {
-    return Math.round(angle / ((2 * Math.PI) / (12 * 12))) * 5;
+    return Math.round(angle / ((2 * Math.PI) / (60 * 60)));
   };
 
   const calculateTimeFromAngle = (angle) => {
@@ -59,25 +60,31 @@ export const MainScreen = ({ navigation }) => {
   return (
     <View style={styles.center}>
       <Text>MainScreen!</Text>
-      <CircularSlider
-        startAngle={angle.startAngle}
-        angleLength={angle.angleLength}
-        onUpdate={onUpdate}
-        segments={5}
-        strokeWidth={40}
-        radius={145}
-        gradientColorFrom="#ff9800"
-        gradientColorTo="#ffcf00"
-        showClockFace
-        clockFaceColor="#9d9d9d"
-        bgCircleColor="#171717"
-        stopIcon={
-          <G scale="0.8" transform={{ translate: '-15, -15' }}>
-            {SPLIT_ICON}
-          </G>
-        }
-        // startIcon={<G>SPLIT_ICON</G>}
-      />
+      <View>
+        <TimerText
+          style={styles.sleepTimeContainer}
+          minutesLong={calculateMinutesFromAngle(angle.angleLength)}
+        />
+        <CircularSlider
+          startAngle={angle.startAngle}
+          angleLength={angle.angleLength}
+          onUpdate={onUpdate}
+          segments={5}
+          strokeWidth={40}
+          radius={145}
+          gradientColorFrom="#ff9800"
+          gradientColorTo="#ffcf00"
+          showClockFace
+          clockFaceColor="#9d9d9d"
+          bgCircleColor="#171717"
+          stopIcon={
+            <G scale="0.8" transform={{ translate: '-15, -15' }}>
+              {SPLIT_ICON}
+            </G>
+          }
+          // startIcon={<G>SPLIT_ICON</G>}
+        />
+      </View>
       <Button title="О приложении" onPress={goToAbout} />
     </View>
   );
@@ -88,5 +95,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  sleepTimeContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
 });
